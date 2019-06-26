@@ -1,0 +1,32 @@
+// Vectors - Example 12
+// Palindrome
+#include <iostream>     // cout
+#include <algorithm>    // reverse
+#include <vector>       // vector
+int num, length;
+
+using namespace std;
+
+int main() {
+	vector<int> myvector;
+
+	do
+	{
+		cout << "Enter a number from 0 to 9 [-# to quit]: ";
+		cin >> num;
+		if (num > 9)
+			continue;
+		if (num < 0)
+			break;
+		myvector.push_back(num);
+	} while (1);
+
+	vector<int> copy(myvector);
+	reverse(myvector.begin(), myvector.end());
+	if (copy == myvector)
+		cout << "PALINDROME" << endl;
+	else
+		cout << "NOT A PALINDROME" << endl;
+
+	return 0;
+}
