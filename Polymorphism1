@@ -1,0 +1,57 @@
+#include <iostream> 
+using namespace std; 
+
+class Vehicle 
+{ 
+     int wheels; 
+     float weight; 
+     public: 
+         virtual void message(void)
+        {cout << "Message from base class Vehicle \n"; } 
+};
+
+class Car : public Vehicle 
+{ 
+     int passenger_load; 
+     public: 
+         virtual void message(void)
+         {cout << "Message from derived class Car \n"; } 
+};
+
+class Truck : public Vehicle 
+{ 
+     int passenger_load; 
+     float payload; 
+     public: 
+          int passengers(void) {return passenger_load;}
+         // NO message function
+};
+
+class Boat : public Vehicle 
+{ 
+     int passenger_load; 
+     public: 
+          int passengers(void) {return passenger_load;} 
+          void message(void)
+         {cout << "Message from derived class Boat \n";} 
+};
+
+int main() 
+{ 
+     Vehicle unicycle; 
+     Car sedan; 
+     Truck trailer; 
+     Boat sailboat; 
+
+     unicycle.message(); 
+     sedan.message(); 
+     trailer.message(); 
+     sailboat.message(); 
+
+     unicycle = sedan; 
+     unicycle.message(); 
+ 
+     return 0; 
+} 
+
+
