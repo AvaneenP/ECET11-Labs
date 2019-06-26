@@ -1,0 +1,108 @@
+#include <iostream>  // include header file
+#include <math.h>
+
+using namespace::std;
+
+#define CLRBUF cin.ignore(cin.rdbuf()->in_avail()) // for cin.getline()
+
+#define PI 2.0 * asin(1.0)  // TRICK TO GET EXACT PI
+                           // 2 x PI/2 = PI
+// BASE CLASS Circle
+class Circle
+	{
+	  // private
+      protected:
+		   double radius;
+
+	   public:
+		   Circle(double = 1.0);
+		   double calculate();
+	};
+
+Circle::Circle(double r)
+{
+		radius = r;
+}
+
+double Circle::calculate()
+{
+	   return(PI * pow(radius,2) );
+}
+
+// DERIVED CLASS Cylinder
+class Cylinder : public Circle
+{
+    protected:
+	    double length; // ADD ONE ADDITIONAL DATA MEMBER
+    public:
+		// ADD TWO FUNCTION MEMBERS
+		// Constructor
+		Cylinder(double r = 1.0, double l = 1.0)
+		// You must use the member initializers for data
+		// members of parent classes IF accessed with the
+		// constructor
+		    : Circle(r)
+		//	length(1)  // OR THIS WAY
+		{
+			length = l;
+		//	radius = r;  // OR THIS WAY
+			// empty body of the member
+			// initialization list
+		}
+		double calculate(); // same name as the one used by
+		                    // circle class done in purpose
+};
+
+// Class Implementations
+
+double Cylinder::calculate()
+{
+	// Note the base function call via ::
+	// to invoke the member function of the
+	// base class Circle ONLY because
+	// the name calculate is used by the Cylinder
+	// class, the binary scope resolution operator
+	// changes the scope of calculate member function
+	return (length * Circle::calculate());
+    // THE COMPILER
+	// KNOWS TO LOOK IN CURRENT CLASS FIRST AND THEN 
+	// THE BASE CLASSES FOR ANY MEMBER FUNCTIONS
+	// SO YOU DO NOT NEED IN GENERAL THE :: operator
+}
+
+int main()
+{
+	Circle circle_1, circle_2(2); // Create 2 Circle Objects
+	Cylinder cylinder_1(3,4); // Create 1 Cylinder object
+
+	system("color FC");  // Red on White	
+				
+	cout << "The area of circle_1 is "
+		 << circle_1.calculate() << endl;
+
+	cout << "The area of circle_2 is "
+		 << circle_2.calculate() << endl;
+
+	cout << "The volume of cylinder_1 is "
+		 << cylinder_1.calculate() << endl;
+
+	// A DERIVED CLASS OBJECT CAN BE ASSIGNED 
+	// TO A BASE CLASS OBJECT
+	// NOT SURPRISING SINCE BOTH CLASSES SHARE
+	// A COMMON SET OF DATA MEMBERS
+	
+	circle_1 = cylinder_1;  // assign a cylinder to a Circle
+	//cylinder_1 = circle_1; // CANNOT DO base TO child
+
+	// THE LENGTH MEMBER OF THE CYLINDER OBJECT IS
+	// NOT USED IN THE ASSIGNMENT BECAUSE IT DOES
+	// NOT HAVE AN EQUIVALENT VARIABLE IN THE
+	// CIRCLE CLASS
+
+	cout << "The area of circle_1 is NOW "
+		 << circle_1.calculate() << endl;
+
+	// cout << cylinder_1.Circle::calculate() << endl;
+
+	return 0;
+}
